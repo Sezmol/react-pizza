@@ -5,19 +5,28 @@ import Sort from '../components/Sort';
 import LoaderCard from '../components/LoaderCard';
 import PizzaCard from '../components/PizzaCard';
 import Pagination from '../components/Pagination/Pagination';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchPizzaItems } from '../redux/slices/pizzaSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import NoPizzasMessage from '../components/NoPizzasMessage';
 
 function App() {
-  const dispatch = useDispatch();
-  const { items, loading, error } = useSelector((state) => state.pizzaSlice);
+  const dispatch = useAppDispatch();
+  const { items, loading, error } = useAppSelector((state) => state.pizzaSlice);
   const [activeCategory, setActiveCategory] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(4);
 
+  const changeActiveCategory = (category: number) => {
+    setActiveCategory(category);
+  };
+
+  const changeCurrentPage = (page: number) => {
+    setCurrentPage(page);
+  };
+
   useEffect(() => {
-    dispatch(fetchPizzaItems({ currentPage, limit }));
-  }, [currentPage, limit]);
+    dispatch(fetchPizzaItems({ currentPage, limit, category: activeCategory }));
+  }, [currentPage, limit, activeCategory]);
 
   return (
     <div className="content">
@@ -25,7 +34,7 @@ function App() {
         <div className="content__top">
           <Categories
             activeCategory={activeCategory}
-            setActiveCategory={setActiveCategory}
+            setActiveCategory={changeActiveCategory}
           />
           <Sort />
         </div>
@@ -34,24 +43,24 @@ function App() {
           {loading ? (
             new Array(8).fill(null).map((elem, i) => <LoaderCard key={i} />)
           ) : error ? (
-            <div className="error__message">
-              <h2>Что-то пошло не так...</h2>
-              <p>При запросе произошла ошибка ({error})</p>
-            </div>
+            <NoPizzasMessage
+              title="Произошла ошибка..."
+              desc="Повторите попытку чуть позднее"
+            />
+          ) : items.length === 0 ? (
+            <NoPizzasMessage
+              title="Пиццы в данной категории отсутствуют"
+              desc="Выберите другую категорию"
+            />
           ) : (
-            items
-              .filter(
-                (item) =>
-                  activeCategory === 0 || item.category === activeCategory
-              )
-              .map((item) => <PizzaCard key={item.id} {...item} />)
+            items.map((item) => <PizzaCard key={item.id} {...item} />)
           )}
         </div>
       </div>
       {/* Для общего количества страниц(numberOfPages) нужно получать его с заголовка x-total-count */}
       <Pagination
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
+        setCurrentPage={changeCurrentPage}
         numberOfPages={3}
       />
     </div>

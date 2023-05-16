@@ -1,28 +1,31 @@
+import React from 'react';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, increaseAmount } from '../redux/slices/cartSlice';
+import {
+  ICartItem,
+  addToCart,
+  increaseAmount,
+} from '../redux/slices/cartSlice';
+import { PizzaItem } from '../redux/slices/pizzaSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
-function PizzaCard({
-  id,
-  category,
+const PizzaCard: React.FC<PizzaItem> = ({
   imageUrl,
   price,
-  rating,
   sizes,
   title,
   types,
-}) {
-  const dispatch = useDispatch();
+}) => {
+  const dispatch = useAppDispatch();
   const [activeSize, setActiveSize] = useState(sizes[0]);
   const [activeType, setActiveType] = useState(types[0]);
-  const cartItems = useSelector((state) => state.cartSlice.items);
+  const cartItems = useAppSelector((state) => state.cartSlice.items);
   const amount = cartItems.reduce(
     (acc, item) => (item.title === title ? (acc += item.amount) : acc),
     0
   );
 
-  const checkCartItem = () => {
-    const itemToCart = {
+  const addCartItem = () => {
+    const itemToCart: ICartItem = {
       // для id можно использовать библиотеку для создания уникального id
       id: title + activeSize + activeType,
       imageUrl,
@@ -79,7 +82,7 @@ function PizzaCard({
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
         <div
-          onClick={() => checkCartItem()}
+          onClick={() => addCartItem()}
           className="button button--outline button--add"
         >
           <svg
@@ -100,6 +103,6 @@ function PizzaCard({
       </div>
     </div>
   );
-}
+};
 
 export default PizzaCard;

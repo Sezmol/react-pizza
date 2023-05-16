@@ -1,7 +1,7 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-const LoaderCard = (props) => (
+const LoaderCard = () => (
   <ContentLoader
     className="pizza-block"
     speed={2}
@@ -10,7 +10,6 @@ const LoaderCard = (props) => (
     viewBox="0 0 280 460"
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
-    {...props}
   >
     <rect x="0" y="0" rx="10" ry="10" width="280" height="260" />
     <rect x="0" y="317" rx="10" ry="10" width="280" height="85" />

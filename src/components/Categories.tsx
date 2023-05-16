@@ -1,4 +1,14 @@
-function Categories({ activeCategory, setActiveCategory }) {
+import React from 'react';
+
+type CategoriesProps = {
+  activeCategory: number;
+  setActiveCategory: (category: number) => void;
+};
+
+const Categories: React.FC<CategoriesProps> = ({
+  activeCategory,
+  setActiveCategory,
+}) => {
   const categories = [
     'Все',
     'Мясные',
@@ -23,6 +33,6 @@ function Categories({ activeCategory, setActiveCategory }) {
       </ul>
     </div>
   );
-}
+};
 
 export default Categories;

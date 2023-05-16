@@ -1,8 +1,14 @@
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../redux/hooks';
+import { useEffect } from 'react';
 
 function Header() {
-  const cartItems = useSelector((state) => state.cartSlice.items);
+  const cartItems = useAppSelector((state) => state.cartSlice.items);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
+
   const amounts = cartItems.reduce((acc, item) => (acc += item.amount), 0);
   const orderPrice = cartItems.reduce(
     (acc, item) => (acc += item.totalPrice),

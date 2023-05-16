@@ -1,14 +1,22 @@
+import React from 'react';
+
 import styles from './style.module.scss';
 
-function Pagination({ currentPage, setCurrentPage, numberOfPages }) {
+type PaginationProps = {
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  numberOfPages: number;
+};
+
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  setCurrentPage,
+  numberOfPages,
+}) => {
   return (
     <div className={styles.pagination}>
       <ul>
-        <li
-          onClick={() => setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev))}
-        >
-          {'<'}
-        </li>
+        <li onClick={() => setCurrentPage(currentPage - 1)}>{'<'}</li>
         {new Array(numberOfPages).fill(null).map((page, i) => (
           <li
             onClick={() => setCurrentPage(i + 1)}
@@ -18,16 +26,10 @@ function Pagination({ currentPage, setCurrentPage, numberOfPages }) {
             {i + 1}
           </li>
         ))}
-        <li
-          onClick={() =>
-            setCurrentPage((prev) => (prev < numberOfPages ? prev + 1 : prev))
-          }
-        >
-          {'>'}
-        </li>
+        <li onClick={() => setCurrentPage(currentPage + 1)}>{'>'}</li>
       </ul>
     </div>
   );
-}
+};
 
 export default Pagination;

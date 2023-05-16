@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { setSortedItems } from '../redux/slices/pizzaSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 function Sort() {
   const sortTypes = ['популярности', 'цене', 'алфавиту'];
   const [sortIsOpen, setSortIsOpen] = useState(false);
   const [activeSort, setActiveSort] = useState(0);
-  const pizzaItems = useSelector((state) => state.pizzaSlice.items);
-  const dispatch = useDispatch();
+  const pizzaItems = useAppSelector((state) => state.pizzaSlice.items);
+  const dispatch = useAppDispatch();
 
-  const onClickSortType = (sortType) => {
+  const onClickSortType = (sortType: number) => {
     setActiveSort(sortType);
     setSortIsOpen((prev) => !prev);
     const sortedItems = [...pizzaItems].sort((a, b) => {

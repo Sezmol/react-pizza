@@ -1,10 +1,11 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Cart from './pages/Cart';
 import Header from './components/Header';
 
-function App() {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
       <div className="wrapper">
@@ -16,6 +17,6 @@ function App() {
       </div>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

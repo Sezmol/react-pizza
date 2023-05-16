@@ -6,9 +6,11 @@ import { Provider } from 'react-redux';
 import './scss/app.scss';
 import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>
-);
+const root = document.getElementById('root');
+if (root) {
+  ReactDOM.createRoot(root).render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+}
