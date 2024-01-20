@@ -16,7 +16,6 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className={styles.pagination}>
       <ul>
-        <li onClick={() => setCurrentPage(currentPage - 1)}>{'<'}</li>
         {new Array(numberOfPages).fill(null).map((page, i) => (
           <li
             onClick={() => setCurrentPage(i + 1)}
@@ -26,7 +25,6 @@ const Pagination: React.FC<PaginationProps> = ({
             {i + 1}
           </li>
         ))}
-        <li onClick={() => setCurrentPage(currentPage + 1)}>{'>'}</li>
       </ul>
     </div>
   );
